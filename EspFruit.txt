@@ -29,11 +29,12 @@ function EspFruit()
 				end
 				-- tween to fruit
 				local distance = math.ceil((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Handle.Position).Magnitude/3 + 0.5)
-				local Time = distance / 100
+				local Time = distance / 75
 				local tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(Time, Enum.EasingStyle.Linear)
 				local part = v.Handle
 				local x, y, z = part.position.X, part.position.Y, part.position.Z
 				tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(x, y, z)}):Play()
+				wait(5)
 			end
 		end)
 	end
