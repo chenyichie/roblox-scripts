@@ -1,14 +1,12 @@
 function EspFruit()
 	local Number = math.random(1, 1000000)
 	local Not_Sended = true
-	local Found = false
+	local fruits = 0
 	for i,v in pairs(game.Workspace:GetChildren()) do
 		pcall(function()
-			if string.find(v.Name, "Fruit") then 
-				if Not_Sended then
-					game.StarterGui:SetCore("SendNotification", {Title="ESP fruit"; Text="找到果實了!!!"; Duration=5;})	
-					Found = true
-				end
+			if string.find(v.Name, "Fruit") then
+				fruits = fruits + 1
+				game.StarterGui:SetCore("SendNotification", {Title="ESP fruit"; Text="找到果實!!"; Duration=5;})
 				if not v.Handle:FindFirstChild('NameEsp'..Number) then
 					local bill = Instance.new('BillboardGui',v.Handle)
 					bill.Name = 'NameEsp'..Number
@@ -29,10 +27,17 @@ function EspFruit()
 				else
 					v.Handle['NameEsp'..Number].TextLabel.Text = v.Name
 				end
+				-- tween to fruit
+				local distance = math.ceil((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Handle.Position).Magnitude/3 + 0.5)
+				local Time = distance / 100
+				local tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(Time, Enum.EasingStyle.Linear)
+				local part = v.Handle
+				local x, y, z = part.position.X, part.position.Y, part.position.Z
+				tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(x, y, z)}):Play()
 			end
 		end)
 	end
-	if not Found then
+	if fruits == 0 then
 		game.StarterGui:SetCore("SendNotification", {Title="ESP fruit"; Text="沒找到果實:/"; Duration=5;})	
 	end
 end
